@@ -229,11 +229,12 @@ RCT_EXPORT_MODULE()
     }
 }
 
-+ (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
++ (void)didRegisterForRemoteNotificationsWithDeviceToken:(id)deviceToken
 {
+    NSString *tokenRepresentation = [deviceToken isKindOfClass:[NSString class]] ? deviceToken : [self deviceTokenToString:deviceToken];
     [[NSNotificationCenter defaultCenter] postNotificationName:RNNotificationsRegistered
                                                         object:self
-                                                      userInfo:@{@"deviceToken": [self deviceTokenToString:deviceToken]}];
+                                                      userInfo:@{@"deviceToken": tokenRepresentation}];
 }
 
 + (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
