@@ -23,6 +23,7 @@ import com.wix.reactnativenotifications.core.notification.PushNotificationProps;
 import com.wix.reactnativenotifications.core.notificationdrawer.IPushNotificationsDrawer;
 import com.wix.reactnativenotifications.core.notificationdrawer.PushNotificationsDrawer;
 import com.wix.reactnativenotifications.gcm.GcmInstanceIdRefreshHandlerService;
+import com.wix.reactnativenotifications.helpers.ApplicationBadgeHelper;
 
 import static com.wix.reactnativenotifications.Defs.LOGTAG;
 
@@ -59,6 +60,11 @@ public class RNNotificationsModule extends ReactContextBaseJavaModule implements
     }
 
     @ReactMethod
+    public void setApplicationIconBadgeNumber(int number) {
+        ApplicationBadgeHelper.instance.setApplicationIconBadgeNumber(getReactApplicationContext(), number);
+    }
+
+    @ReactMethod
     public void getInitialNotification(final Promise promise) {
         Log.d(LOGTAG, "Native method invocation: getInitialNotification");
         Object result = null;
@@ -84,9 +90,26 @@ public class RNNotificationsModule extends ReactContextBaseJavaModule implements
     }
 
     @ReactMethod
+    public void scheduleLocalNotification(ReadableMap notificationPropsMap, int notificationId) {
+        Log.d(LOGTAG, "Native method invocation: scheduleLocalNotification");
+        final Bundle notificationProps = Arguments.toBundle(notificationPropsMap);
+        if (notificationProps.getString("id") == null) {
+            notificationProps.putString("id", String.valueOf(notificationId));
+        }
+        final IPushNotification pushNotification = PushNotification.get(getReactApplicationContext().getApplicationContext(), notificationProps);
+        pushNotification.onScheduleRequest(notificationId);
+    }
+
+    @ReactMethod
     public void cancelLocalNotification(int notificationId) {
         IPushNotificationsDrawer notificationsDrawer = PushNotificationsDrawer.get(getReactApplicationContext().getApplicationContext());
         notificationsDrawer.onNotificationClearRequest(notificationId);
+    }
+
+    @ReactMethod
+    public void cancelAllLocalNotifications() {
+        IPushNotificationsDrawer notificationDrawer = PushNotificationsDrawer.get(getReactApplicationContext().getApplicationContext());
+        notificationDrawer.onCancelAllLocalNotifications();
     }
 
     @Override
