@@ -247,4 +247,8 @@ export default class NotificationsIOS {
   static getDeliveredNotifications(callback: (notifications: [Object]) => void) {
     return NativeRNNotifications.getDeliveredNotifications(callback);
   }
+
+  static checkPermissions() {
+    return NativeRNNotifications.checkPermissions();
+  }
 }

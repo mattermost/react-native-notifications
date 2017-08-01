@@ -78,6 +78,7 @@ describe("NotificationsIOS", () => {
             removeAllDeliveredNotifications: nativeRemoveAllDeliveredNotifications,
             removeDeliveredNotifications: nativeRemoveDeliveredNotifications,
             getDeliveredNotifications: nativeGetDeliveredNotifications
+            checkPermissions: nativeCheckPermissions,
           }
         },
         NativeAppEventEmitter: {
@@ -347,6 +348,14 @@ describe("NotificationsIOS", () => {
       NotificationsIOS.getDeliveredNotifications(callback);
 
       expect(nativeGetDeliveredNotifications).to.have.been.calledWith(callback);
+    });
+  });
+
+  describe("Check permissions ", () => {
+    it("should call native check permissions", () => {
+      NotificationsIOS.checkPermissions();
+      expect(nativeCheckPermissions).to.have.been.calledWith();
+
     });
   });
 });

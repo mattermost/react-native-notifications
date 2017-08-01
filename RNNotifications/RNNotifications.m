@@ -621,4 +621,14 @@ RCT_EXPORT_METHOD(getDeliveredNotifications:(RCTResponseSenderBlock)callback)
 
 #endif !TARGET_OS_TV
 
+RCT_EXPORT_METHOD(checkPermissions:(RCTPromiseResolveBlock) resolve
+                  reject:(RCTPromiseRejectBlock) reject) {
+    UIUserNotificationSettings *currentSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+    resolve(@{
+              @"badge": @((currentSettings.types & UIUserNotificationTypeBadge) > 0),
+              @"sound": @((currentSettings.types & UIUserNotificationTypeSound) > 0),
+              @"alert": @((currentSettings.types & UIUserNotificationTypeAlert) > 0),
+              });
+}
+
 @end
