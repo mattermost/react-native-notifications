@@ -32,7 +32,9 @@ describe("NotificationsIOS", () => {
       nativeRemoveDeliveredNotifications,
       nativeGetDeliveredNotifications,
       nativeSetBadgesCount,
-      nativeIsRegisteredForRemoteNotifications;
+      nativeIsRegisteredForRemoteNotifications,
+      nativeCheckPermissions;
+
   let NotificationsIOS, NotificationAction, NotificationCategory;
   let someHandler = () => {};
   let constantGuid = "some-random-uuid";
@@ -57,6 +59,7 @@ describe("NotificationsIOS", () => {
     nativeRemoveAllDeliveredNotifications = sinon.spy();
     nativeRemoveDeliveredNotifications = sinon.spy();
     nativeGetDeliveredNotifications = sinon.spy();
+    nativeCheckPermissions = sinon.spy();
 
     let libUnderTest = proxyquire("../index.ios", {
       "uuid": {
@@ -78,7 +81,7 @@ describe("NotificationsIOS", () => {
             removeAllDeliveredNotifications: nativeRemoveAllDeliveredNotifications,
             removeDeliveredNotifications: nativeRemoveDeliveredNotifications,
             getDeliveredNotifications: nativeGetDeliveredNotifications
-            checkPermissions: nativeCheckPermissions,
+            checkPermissions: nativeCheckPermissions
           }
         },
         NativeAppEventEmitter: {
@@ -121,6 +124,7 @@ describe("NotificationsIOS", () => {
     nativeRemoveAllDeliveredNotifications.reset();
     nativeRemoveDeliveredNotifications.reset();
     nativeGetDeliveredNotifications.reset();
+    nativeCheckPermissions.reset();
   });
 
   after(() => {
@@ -140,6 +144,7 @@ describe("NotificationsIOS", () => {
     nativeRemoveAllDeliveredNotifications = null;
     nativeRemoveDeliveredNotifications = null;
     nativeGetDeliveredNotifications = null;
+    nativeCheckPermissions = null;
 
     NotificationsIOS = null;
     NotificationAction = null;
