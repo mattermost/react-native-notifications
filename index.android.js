@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {NativeModules, DeviceEventEmitter} from "react-native";
 import NotificationAndroid from "./notification";
 
@@ -94,3 +95,6 @@ export class PendingNotifications {
       });
   }
 }
+=======
+require('./example/index');
+>>>>>>> upstream/master
